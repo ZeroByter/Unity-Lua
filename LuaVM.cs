@@ -231,18 +231,7 @@ public class LuaVM
     /// <returns>Null if an error occured otherwise will return the result of the executed lua code</returns>
     public DynValue ExecuteString(string command)
     {
-        DynValue result = DynValue.Nil;
-
-        try
-        {
-            result = m_LuaScript.DoString(command);
-        }
-        catch (InterpreterException ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "Lua ExecuteString error: {0}", ex.DecoratedMessage);
-        }
-
-        return result;
+        return m_LuaScript.DoString(command);
     }
 
     /// <summary>
@@ -252,22 +241,7 @@ public class LuaVM
     /// <returns>Null if an error occured otherwise will return the result of the executed lua code</returns>
     public DynValue ExecuteScript(string filePath)
     {
-        DynValue result = DynValue.Nil;
-
-        try
-        {
-            result = m_LuaScript.DoFile(filePath);
-        }
-        catch (InterpreterException ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "Lua ExecuteScript error: {0}", ex.DecoratedMessage);
-        }
-        catch (Exception ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "System ExecuteScript error: {0}", ex.Message);
-        }
-
-        return result;
+        return m_LuaScript.DoFile(filePath);
     }
 
     /// <summary>
@@ -277,22 +251,7 @@ public class LuaVM
     /// <returns>Null if an error occured otherwise will return the DynValue of the script. This can be passed to Call()</returns>
     public DynValue LoadScript(string filePath)
     {
-        DynValue result = DynValue.Nil;
-
-        try
-        {
-            result = m_LuaScript.LoadFile(filePath);
-        }
-        catch (InterpreterException ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "Lua ExecuteString error: {0}", ex.DecoratedMessage);
-        }
-        catch (Exception ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "System ExecuteString error: {0}", ex.Message);
-        }
-
-        return result;
+        return m_LuaScript.LoadFile(filePath);
     }
     
     /// <summary>
@@ -302,22 +261,7 @@ public class LuaVM
     /// <returns>Null if an error occured otherwise will return the DynValue of the script. This can be passed to Call()</returns>
     public DynValue LoadString(string luaString)
     {
-        DynValue result = DynValue.Nil;
-
-        try
-        {
-            result = m_LuaScript.LoadString(luaString);
-        }
-        catch (InterpreterException ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "Lua ExecuteString error: {0}", ex.DecoratedMessage);
-        }
-        catch (Exception ex)
-        {
-            Logger.Log(Channel.Lua, Priority.FatalError, "System ExecuteString error: {0}", ex.Message);
-        }
-
-        return result;
+        return m_LuaScript.LoadString(luaString);
     }
 
     /// <summary>
@@ -332,14 +276,7 @@ public class LuaVM
 
         if (luaFunc.IsNotNil() && luaFunc.Type == DataType.Function)
         {
-            try
-            {
-                result = m_LuaScript.Call(luaFunc, args);
-            }
-            catch (ScriptRuntimeException ex)
-            {
-                Logger.Log(Channel.Lua, Priority.FatalError, "Lua Call error: {0}", ex.DecoratedMessage);
-            }
+            result = m_LuaScript.Call(luaFunc, args);
         }
         else
         {
@@ -363,14 +300,7 @@ public class LuaVM
             DynValue func = GetGlobal(functionName);
             if (func.Type == DataType.Function)
             {
-                try
-                {
-                    result = m_LuaScript.Call(func, args);
-                }
-                catch (InterpreterException ex)
-                {
-                    Logger.Log(Channel.Lua, Priority.FatalError, "Lua error calling function {0}: {1}", functionName, ex.DecoratedMessage);
-                }
+                result = m_LuaScript.Call(func, args);
             }
             else
             {
